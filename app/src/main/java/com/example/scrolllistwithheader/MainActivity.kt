@@ -3,6 +3,7 @@ package com.example.scrolllistwithheader
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,23 +25,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel = MainActivityViewModel()
+        val viewModel by viewModels<MainActivityViewModel>()
 
-        val words = viewModel.getAllList()
-
-        val wordsList = words.map {
-            Category(
-                word = it.key.toString(),
-                items = it.value
-            )
-        }
         setContent {
             ScrollListWithHeaderTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ScrollListWithHeader(categories = wordsList)
+                    ScrollListWithHeader(categories = viewModel.categories)
 
                 }
             }
@@ -98,8 +91,3 @@ private fun CategoryItem(
             .padding(16.dp)
     )
 }
-
-data class Category(
-    val word: String,
-    val items: List<String>
-)

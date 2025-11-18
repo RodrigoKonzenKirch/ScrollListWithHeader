@@ -2,9 +2,9 @@ package com.example.scrolllistwithheader
 
 import androidx.lifecycle.ViewModel
 
-class MainActivityViewModel: ViewModel() {
+class MainActivityViewModel : ViewModel() {
 
-    private val words = listOf(
+    val categories: List<Category> = listOf(
         "Zizzing Zest",
         "Groovy Glow",
         "Pixelated Pixie",
@@ -45,9 +45,7 @@ class MainActivityViewModel: ViewModel() {
         "Whispering Windmill",
         "Pixelated Playground",
         "Bouncing Bonanza"
-    ).sorted().groupBy{ it[0] }
-
-    fun getAllList(): Map<Char, List<String>> {
-        return words
-    }
+    ).sorted()
+        .groupBy { it[0] }
+        .map { Category(it.key.toString(), it.value) }
 }
